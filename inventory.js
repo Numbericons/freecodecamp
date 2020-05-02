@@ -2,21 +2,30 @@ function stringSort(str1,str2) {
   const alpha = 'abcdefghijklmnopqrstuvwxyz';
 
   for (let z=0; z<str1.length; z++) {
-    let idx1 = alpha.indexOf(str1[z]);
-    let idx2 = alpha.indexOf(str2[z]);
-    if (idx1 < idx2) return str1; 
-    if (idx1 > idx2) return str2;
+    let idx1 = alpha.indexOf(str1[z].toLowerCase());
+    let idx2 = alpha.indexOf(str2[z].toLowerCase());
+    if (idx1 < idx2) return -1; 
+    if (idx1 > idx2) return 1;
   }
-  return str1;
+  return -1;
 }
 
 function sortInv(arr) {
-  return arr.sort((a,b) => { stringSort(a,b)
-  });
+  return arr.sort((a,b) => { return stringSort(a[1],b[1]) });
 }
 
 function updateInventory(cur, nInv) {
-  // All inventory must be accounted for or you're fired!
+  for (let z=0; z<nInv.length;z++) {
+    let found = false;
+    for (let k=0; k<cur.length;k++) {
+      if (cur[k][1] === nInv[z][1]) { 
+        cur[k][0] += nInv[z][0];
+        found = true;
+        break;
+      }
+    }
+    if (!found) curInv.push(nInv[z]);
+  }
   return sortInv(cur);
 }
 
@@ -35,7 +44,8 @@ var newInv = [
   [7, "Toothpaste"]
 ];
 
-updateInventory(curInv, newInv);
+const result = updateInventory(curInv, newInv);
+console.log(result);
 
 //iterate through the new inventory
 //  if we find the key (element 1) in the current inventory, update curInv[idx][0] adding the new goods
