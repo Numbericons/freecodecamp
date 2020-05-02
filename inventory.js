@@ -11,10 +11,12 @@ function stringSort(str1,str2) {
 }
 
 function sortInv(arr) {
-  return arr.sort((a,b) => { return stringSort(a[1],b[1]) });
+  return arr.sort((a,b) =>  stringSort(a[1],b[1]) );
 }
 
 function updateInventory(cur, nInv) {
+  if (!cur.length) return sortInv(nInv);
+  if (!nInv.length) return sortInv(cur);
   for (let z=0; z<nInv.length;z++) {
     let found = false;
     for (let k=0; k<cur.length;k++) {
@@ -24,7 +26,7 @@ function updateInventory(cur, nInv) {
         break;
       }
     }
-    if (!found) curInv.push(nInv[z]);
+    if (!found) cur.push(nInv[z]);
   }
   return sortInv(cur);
 }
@@ -44,7 +46,9 @@ var newInv = [
   [7, "Toothpaste"]
 ];
 
-const result = updateInventory(curInv, newInv);
+// const result = updateInventory(curInv, newInv);
+// const result = updateInventory([], [[2, "Hair Pin"], [3, "Half-Eaten Apple"], [67, "Bowling Ball"], [7, "Toothpaste"]])
+const result = updateInventory([[0, "Bowling Ball"], [0, "Dirty Sock"], [0, "Hair Pin"], [0, "Microphone"]], [[1, "Hair Pin"], [1, "Half-Eaten Apple"], [1, "Bowling Ball"], [1, "Toothpaste"]]);
 console.log(result);
 
 //iterate through the new inventory
